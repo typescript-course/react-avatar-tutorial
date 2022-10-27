@@ -1,5 +1,12 @@
-function Avatar() {
-    return <img src="https://cataas.com/cat/says/hello%20world!" alt="@github-handle" />
+type AvatarProps = {
+    /** the url of an image to render for the Avatar. */
+    url: string;
+    /** the alt text to use for the url image. */
+    alt: string;
+}
+
+function Avatar({url, alt}: AvatarProps) {
+    return <img src={url} alt={alt} />
 }
 
 export default Avatar
