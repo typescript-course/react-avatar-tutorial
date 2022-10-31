@@ -8,8 +8,13 @@ type AvatarProps = {
     alt?: string;
 }
 
+// NOTES
+// if onError is called, use fallback url and alt text
+// 1. useState
+// 2. update src and alt when onError is called
+
 function Avatar({url = FALLBACK_AVATAR_URL, alt = FALLBACK_AVATAR_ALT_TEXT}: AvatarProps) {
-    return <img src={url} alt={alt} />
+    return <img src={url} alt={alt} onError={() => console.log("TODO - implement me")}/>
 }
 
 export default Avatar
