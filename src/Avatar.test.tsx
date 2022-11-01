@@ -1,9 +1,12 @@
-import { describe, expect, it } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { describe, expect, it, beforeEach } from "vitest";
+import { render, screen, cleanup, fireEvent } from "@testing-library/react";
 
 import Avatar, { FALLBACK_AVATAR_URL, FALLBACK_AVATAR_ALT_TEXT } from "./Avatar";
 
 describe("Avatar", () => {
+    beforeEach(() => {
+        cleanup()
+    })
     it("should render an <img />", () => {
         const url = "https://cataas.com/cat/says/hello%20world!";
         const alt = "@github-handle";
@@ -24,6 +27,20 @@ describe("Avatar", () => {
         render(<Avatar />);
     
         const img = screen.getByAltText(FALLBACK_AVATAR_ALT_TEXT);
+        expect(img).toHaveAttribute("src", FALLBACK_AVATAR_URL);
+    });
+    it("should use a fallback image if image fails to load", async () => {
+        render(<Avatar url="https://hello.com/fake.png" />);
+
+        const img = screen.getByAltText(FALLBACK_AVATAR_ALT_TEXT);
+        fireEvent.error(img)
+        expect(img).toHaveAttribute("src", FALLBACK_AVATAR_URL);
+    });
+    it("should use a fallback image if url is empty string", () => {
+        render(<Avatar url="" />);
+
+        const img = screen.getByAltText(FALLBACK_AVATAR_ALT_TEXT);
+        fireEvent.error(img)
         expect(img).toHaveAttribute("src", FALLBACK_AVATAR_URL);
     });
 });
